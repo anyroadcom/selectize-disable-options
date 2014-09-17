@@ -17,15 +17,15 @@
 (function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as an anonymous module.
-        define(['selectize'], factory);
+        define(['selectize','jquery'], factory);
     } else if (typeof exports === 'object') {
         // Node/CommonJS
-        factory(require('selectize'));
+        factory(require('selectize'),require('jquery'));
     } else {
         // Browser globals
-        factory(Selectize);
+        factory(Selectize, $);
     }
-}(function (Selectize) {
+}(function (Selectize, $) {
     Selectize.define('disable_options', function(options) {
       var self = this;
 
