@@ -1,0 +1,24 @@
+{
+  "name": "selectize-disable-options",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/anyroadcom/selectize-disable-options.git"
+  },
+  "homepage": "https://github.com/mondorobot/selectize-disable-options",
+  "authors": [
+    "jmyers0022 <jmyers0022@gmail.com>"
+  ],
+  "description": "This plugin disables options in a selectize dropdown based on the option's [data-value] attribute.",
+  "main": "plugin.js",
+  "scripts": [
+    "plugin.js"
+  ],
+  "styles": [
+    "plugin.css"
+  ],
+  "dependencies": {
+    "components/jquery": "^1.0.0",
+    "anyroadcom/selectize.js": "*",
+    "anyroadcom/microplugin.js": "0.0.x"
+  }
+}
