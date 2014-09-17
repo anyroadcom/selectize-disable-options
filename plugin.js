@@ -14,56 +14,69 @@
  * @authors Jake Myers <jmyers0022@gmail.com>, Vaughn Draughon <vaughn@rocksolidwebdesign.com>
  */
 
- Selectize.define('disable_options', function(options) {
-  var self = this;
+(function (factory) {
+    if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(['selectize'], factory);
+    } else if (typeof exports === 'object') {
+        // Node/CommonJS
+        factory(require('selectize'));
+    } else {
+        // Browser globals
+        factory(Selectize);
+    }
+}(function (Selectize) {
+    Selectize.define('disable_options', function(options) {
+      var self = this;
 
-  options = $.extend({
-    'disableOptions': []
-  }, options);
+      options = $.extend({
+        'disableOptions': []
+      }, options);
 
-  self.onFocus = (function() {
-    var original = self.onFocus;
+      self.onFocus = (function() {
+        var original = self.onFocus;
 
-    return function() {
-      original.apply(this, arguments);
+        return function() {
+          original.apply(this, arguments);
 
-      $.each(options.disableOptions, function(index, option) {
-        self.$dropdown_content.find('[data-value="' + String(option) + '"]').addClass('option-disabled');
-      });
-    };
-  })();
+          $.each(options.disableOptions, function(index, option) {
+            self.$dropdown_content.find('[data-value="' + String(option) + '"]').addClass('option-disabled');
+          });
+        };
+      })();
 
-  self.onOptionSelect = (function() {
-    var original = self.onOptionSelect;
+      self.onOptionSelect = (function() {
+        var original = self.onOptionSelect;
 
-    return function(e) {
-      var value, $target, $option;
+        return function(e) {
+          var value, $target, $option;
 
-      if (e.preventDefault) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      $target = $(e.currentTarget);
-
-      if ($target.hasClass('option-disabled')) {
-        return;
-      } else if ($target.hasClass('create')) {
-        self.createItem();
-      } else {
-        value = $target.attr('data-value');
-        if (value) {
-          self.lastQuery = null;
-          self.setTextboxValue('');
-          self.addItem(value);
-          if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
-            self.setActiveOption(self.getOption(value));
+          if (e.preventDefault) {
+            e.preventDefault();
+            e.stopPropagation();
           }
-        }
 
-        self.blur();
-      }
-      return original.apply(this, arguments);
-    };
-  })();
-});
+          $target = $(e.currentTarget);
+
+          if ($target.hasClass('option-disabled')) {
+            return;
+          } else if ($target.hasClass('create')) {
+            self.createItem();
+          } else {
+            value = $target.attr('data-value');
+            if (value) {
+              self.lastQuery = null;
+              self.setTextboxValue('');
+              self.addItem(value);
+              if (!self.settings.hideSelected && e.type && /mouse/.test(e.type)) {
+                self.setActiveOption(self.getOption(value));
+              }
+            }
+
+            self.blur();
+          }
+          return original.apply(this, arguments);
+        };
+      })();
+    });
+}));
